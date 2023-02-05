@@ -1,6 +1,7 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import ProductCard from '../components/ProductCard';
 import { getProducts, Product } from '../lib/products';
 
 interface HomePageProps {
@@ -27,29 +28,32 @@ const HomePage: React.FC<HomePageProps> = ({ products }): JSX.Element => {
         <title>Next Shop</title>
       </Head>
       <main>
-        <div className="flex justify-center items-center h-screen">
-          <h1 className="text-9xl uppercase font-black">Next Shop</h1>
-        </div>
-        <div className="flex flex-wrap justify-center">
-          {products.map((product) => (
-            <div
+        <h1 className="text-4xl my-5 font-bold">Next Shop</h1>
+
+        {/* <h1 className="text-4xl text-center my-5 font-bold">Featured Products</h1>
+
+        <ul className="flex flex-wrap justify-center">
+          {products.slice(0, 3).map((product) => (
+            <li
               key={product.id}
               className="max-w-sm rounded overflow-hidden shadow-lg m-5"
             >
-              <div className="px-6 py-4">
-                <Link href={`/products/${product.id}`}>
-                  <div className="font-bold text-xl mb-2">{product.title}</div>
-                </Link>
-                <p className="text-gray-700 text-base">{product.description}</p>
-              </div>
-              <div className="px-6 py-4">
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                  {product.price}$
-                </span>
-              </div>
-            </div>
+              <ProductCard product={product} />
+            </li>
           ))}
-        </div>
+        </ul>
+
+        <h1 className="text-4xl text-center my-5 font-bold">All Products</h1> */}
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {products.map((product) => (
+            <li
+              key={product.id}
+              className="max-w-sm rounded overflow-hidden shadow-lg m-5 hover:shadow-xl"
+            >
+              <ProductCard product={product} />
+            </li>
+          ))}
+        </ul>
       </main>
     </>
   )
