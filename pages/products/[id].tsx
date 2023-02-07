@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/image';
 import { ParsedUrlQuery } from 'querystring';
+import Page from '../../components/Page';
 import { ApiError } from '../../lib/api';
 import { getProducts, getProduct, Product } from '../../lib/products';
 
@@ -48,28 +49,31 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
 
 const ProductPage = ({ product }: ProductPageProps): JSX.Element => {
 	return (
-		<div className="flex flex-col md:flex-row px-6 py-4">
-			<div className="md:w-1/2">
-				<Image
-					className="w-full"
-					src={product.imageUrl}
-					alt={product.title}
-					width={640}
-					height={480}
-				/>
-			</div>
-			<div className="md:w-1/2 px-6 py-4">
-				<div className="font-bold text-2xl mb-2">
-					{product.title}
+		<Page title={product.title}>
+			<div className="flex flex-col md:flex-row px-6 py-4">
+				<div className="md:w-1/2">
+					<Image
+						className="w-full"
+						src={product.imageUrl}
+						alt={product.title}
+						width={640}
+						height={480}
+					/>
 				</div>
-				<p className="text-gray-700 text-base">
-					{product.description}
-				</p>
-				<p className="text-gray-700 text-lg font-bold mt-3">
-					{product.price.toFixed(2)}$
-				</p>
+				<div className="md:w-1/2 px-6 py-4">
+					<div className="font-bold text-2xl mb-2">
+						{product.title}
+					</div>
+					<p className="text-gray-700 text-base">
+						{product.description}
+					</p>
+					<p className="text-gray-700 text-lg font-bold mt-3">
+						{product.price.toFixed(2)}$
+					</p>
+				</div>
 			</div>
-		</div>
+		</Page>
+
 
 	);
 };

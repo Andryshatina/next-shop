@@ -8,8 +8,8 @@ export class ApiError extends Error {
 	}
 }
 
-export async function fetchJson(url: string): Promise<any> {
-	const res = await fetch(url);
+export async function fetchJson(url: string, init?: RequestInit): Promise<any> {
+	const res = await fetch(url, init);
 	if (!res.ok) throw new ApiError(url, res.status);
 	return res.json();
 }
