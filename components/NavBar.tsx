@@ -1,26 +1,9 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { fetchJson } from '../lib/api';
-import { User } from '../lib/user';
+import { useSignOut, useUser } from '../hooks/user';
 
 const NavBar = (): JSX.Element => {
-	const [user, setUser] = useState<User>();
-
-	useEffect(() => {
-		(async () => {
-			try {
-				const user = await fetchJson('/api/user');
-				setUser(user);
-			} catch (error) {
-				// user is not logged in
-			}
-		})();
-	}, []);
-
-	const handleSignOut = async () => {
-		await fetchJson('/api/logout');
-		setUser(undefined);
-	};
+	const user = useUser();
+	const signOut = useSignOut();
 
 	return (
 		<nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
@@ -57,7 +40,7 @@ const NavBar = (): JSX.Element => {
 							</Link>
 							<button
 								className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
-								onClick={handleSignOut}
+								onClick={signOut}
 							>
 								Sign Out
 							</button>

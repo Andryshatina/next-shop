@@ -12,7 +12,7 @@ export interface Product {
 
 export async function getProducts(): Promise<Product[]> {
 	const products = await fetchJson(`${CMS_URL}/products`);
-	console.log(products)
+	//console.log(products)
 	return products.map(stripProduct);
 }
 

@@ -3,29 +3,22 @@ import Field from '../components/Field';
 import Input from '../components/Input';
 import Page from '../components/Page';
 import { useState } from 'react';
-import { fetchJson } from '../lib/api';
 import { useRouter } from 'next/router';
+import { useSignIn } from '../hooks/user';
 
 const SignInPage = (): JSX.Element => {
 	const router = useRouter();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [status, setStatus] = useState({ loading: false, error: false });
+
+	const { signIn, signInError, signInLoading } = useSignIn();
+
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setStatus({ loading: true, error: false });
-		try {
-			const response = await fetchJson('http://localhost:3000/api/login', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, password }),
-			});
+		const valid = await signIn(email, password);
+		if (valid)
 			router.push('/');
-			setStatus({ loading: false, error: false });
-		} catch (error) {
-			setStatus({ loading: false, error: true });
-		}
 	};
 
 	return (
@@ -42,11 +35,11 @@ const SignInPage = (): JSX.Element => {
 						<Field title="Password">
 							<Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 						</Field>
-						{status.error && (
-							<p className="text-red-500 text-xs italic mb-5">Something went wrong.</p>
+						{signInError && (
+							<p className="text-red-500 text-xs italic mb-5">Wrong login details</p>
 						)}
 						<div className="flex items-center justify-between">
-							{status.loading ? <p>Loading...</p> : (
+							{signInLoading ? <p>Loading...</p> : (
 								<Button type="submit">Sign In</Button>
 							)}
 						</div>
