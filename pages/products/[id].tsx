@@ -1,7 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/image';
 import { ParsedUrlQuery } from 'querystring';
+import AddToCardWidget from '../../components/AddToCardWidget';
 import Page from '../../components/Page';
+import { useUser } from '../../hooks/user';
 import { ApiError } from '../../lib/api';
 import { getProducts, getProduct, Product } from '../../lib/products';
 
@@ -48,6 +50,7 @@ export const getStaticProps: GetStaticProps<ProductPageProps, ProductPageParams>
 }
 
 const ProductPage = ({ product }: ProductPageProps): JSX.Element => {
+	const user = useUser();
 	return (
 		<Page title={product.title}>
 			<div className="flex flex-col md:flex-row px-6 py-4">
@@ -70,6 +73,7 @@ const ProductPage = ({ product }: ProductPageProps): JSX.Element => {
 					<p className="text-gray-700 text-lg font-bold mt-3">
 						{product.price.toFixed(2)}$
 					</p>
+					{user && <AddToCardWidget productId={product.id} />}
 				</div>
 			</div>
 		</Page>

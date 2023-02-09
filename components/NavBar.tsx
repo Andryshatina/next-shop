@@ -38,12 +38,26 @@ const NavBar = (): JSX.Element => {
 								className="inline-block text-sm px-4 py-2 mr-3 leading-none rounded text-white border border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">
 								{user.name}
 							</Link>
+							<Link
+								href="/cart"
+								className="inline-block text-sm px-4 py-2 mr-3 leading-none rounded text-white border border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">
+								Cart
+							</Link>
+							{/* Sign out button with red arrow */}
 							<button
 								className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0"
-								onClick={signOut}
-							>
-								Sign Out
+								onClick={signOut}>
+								<svg
+									className="fill-current h-3 w-4"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+									color='darkred'
+								>
+									<title>Sign Out</title>
+									<path d="M17.172 11H6v-2h11.172l-3.586-3.586 1.414-1.414L20 10l-5.828 5.828-1.414-1.414L17.172 11zM2 5h2v10H2V5z" />
+								</svg>
 							</button>
+
 						</>) :
 						(
 							<Link
