@@ -70,12 +70,60 @@ const handlePostCart = async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 };
 
+const handlePutCart = async (req: NextApiRequest, res: NextApiResponse) => {
+	const { jwt } = req.cookies;
+
+	if (!jwt) return res.status(401).json({ message: 'Not authorized' });
+
+	const { productId, quantity } = req.body;
+
+	try {
+		await fetchJson(`${CMS_URL}/cart-items/${productId}`, {
+			method: 'PUT',
+			headers: {
+				'Authorization': `Bearer ${jwt}`,
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ quantity }),
+		});
+		return res.status(200).json({});
+
+	} catch (error) {
+		res.status(error.status || 500).end(error.message);
+	}
+};
+
+const handleDeleteItemCart = async (req: NextApiRequest, res: NextApiResponse) => {
+	const { jwt } = req.cookies;
+
+	if (!jwt) return res.status(401).json({ message: 'Not authorized' });
+
+	const { productId } = req.body;
+
+	try {
+		await fetchJson(`${CMS_URL}/cart-items/${productId}`, {
+			method: 'DELETE',
+			headers: {
+				'Authorization': `Bearer ${jwt}`,
+				'Content-Type': 'application/json',
+			},
+		});
+		return res.status(200).json({});
+	} catch (error) {
+		res.status(error.status || 500).end(error.message);
+	}
+};
+
 const handleCart = async (req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
 		case 'GET':
 			return handleGetCart(req, res);
 		case 'POST':
 			return handlePostCart(req, res);
+		case 'PUT':
+			return handlePutCart(req, res);
+		case 'DELETE':
+			return handleDeleteItemCart(req, res);
 		default:
 			return res.status(405).end();
 	}

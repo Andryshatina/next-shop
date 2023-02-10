@@ -1,3 +1,5 @@
+import DeleteCartItemWidget from './DeleteCartItemWidget';
+
 interface CartTableProps {
 	cartItems: CartItem[];
 }
@@ -24,14 +26,21 @@ const formatCurrency = (value: number): string => {
 }
 
 const buildCart = (cartItems: CartItem[]): Cart => {
+	//console.log(cartItems);
 	let total = 0.0;
 	const items = [];
 	for (const item of cartItems) {
 		const itemTotal = item.product.price * item.quantity;
 		total += itemTotal;
-		items.push({ ...item.product, quantity: item.quantity, itemTotal });
+		items.push({
+			id: item.id,
+			title: item.product.title,
+			price: item.product.price,
+			quantity: item.quantity,
+			itemTotal
+		});
 	}
-
+	//console.log(items);
 	return { items, total };
 };
 
@@ -39,7 +48,7 @@ const CartTable = ({ cartItems }: CartTableProps): JSX.Element => {
 	const { items, total } = buildCart(cartItems);
 	//console.log(items);
 	return (
-		<table className='w-full border-collapse border border-gray-700'>
+		<table className='w-full border-collapse  border-gray-700'>
 			<thead className='bg-gray-200'>
 				<tr>
 					<th className='border border-gray-700 text-left p-2'>Product</th>
@@ -55,6 +64,11 @@ const CartTable = ({ cartItems }: CartTableProps): JSX.Element => {
 						<td className='border border-gray-700 text-right p-2'>{price}</td>
 						<td className='border border-gray-700 text-right p-2'>{quantity}</td>
 						<td className='border border-gray-700 text-right p-2'>{formatCurrency(itemTotal)}</td>
+						<td>
+							<DeleteCartItemWidget productId={id} />
+						</td>
+
+
 					</tr>
 				))}
 			</tbody>

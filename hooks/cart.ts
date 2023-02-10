@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { CartItem } from '../pages/api/cart';
 import { fetchJson } from '../lib/api';
 
@@ -37,6 +37,29 @@ export function useCart(): useCartResult {
 		cartItems: query.data,
 		cartItemsLoading: query.isLoading,
 		cartItemsError: query.isError,
+	}
+}
+
+export function useRemoveFromCart() {
+	const queryClient = useQueryClient();
+	const mutation = useMutation(async (productId: number) => {
+		await fetchJson('/api/cart', {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ productId })
+		});
+	}, {
+		onSuccess: (() => {
+			queryClient.invalidateQueries('cartItems');
+		})
+	}
+	);
+	return {
+		removeProduct: async (productId: number) => {
+			mutation.mutateAsync(productId);
+		},
+		removeProductError: mutation.isError,
+		removeProductLoading: mutation.isLoading
 	}
 }
 
