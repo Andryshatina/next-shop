@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAddToCart } from '../hooks/cart';
 import { useRouter } from 'next/router';
+import LoadingSpinner from './LoadingSpinner';
 
 const AddToCardWidget = ({ productId }) => {
 	const router = useRouter();
@@ -22,10 +23,10 @@ const AddToCardWidget = ({ productId }) => {
 				className="w-16 h-10 px-2 text-center text-gray-700 bg-gray-200 rounded-l"
 				type="number"
 				placeholder="1"
-				value={quantity}
+				value={quantity.toString()}
 				onChange={(e) => setQuantity(parseInt(e.target.value))}
 			/>
-			{addToCartLoading ? <p>Loading...</p> : (
+			{addToCartLoading ? <LoadingSpinner /> : (
 				<button
 					className="px-8 py-2 text-white bg-emerald-700 rounded-r hover:bg-emerald-600"
 					onClick={handleAddToCart}

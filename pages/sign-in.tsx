@@ -5,6 +5,7 @@ import Page from '../components/Page';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSignIn } from '../hooks/user';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const SignInPage = (): JSX.Element => {
 	const router = useRouter();
@@ -39,7 +40,7 @@ const SignInPage = (): JSX.Element => {
 							<p className="text-red-500 text-xs italic mb-5">Wrong login details</p>
 						)}
 						<div className="flex items-center justify-between">
-							{signInLoading ? <p>Loading...</p> : (
+							{signInLoading ? <LoadingSpinner /> : (
 								<Button type="submit">Sign In</Button>
 							)}
 						</div>
