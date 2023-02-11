@@ -1,7 +1,11 @@
 import { useRemoveFromCart } from '../hooks/cart';
 import LoadingSpinner from './LoadingSpinner';
 
-const DeleteCartItemWidget = ({ productId }) => {
+interface DeleteCartItemWidgetProps {
+	productId: number;
+}
+
+const DeleteCartItemWidget = ({ productId }: DeleteCartItemWidgetProps): JSX.Element => {
 	const { removeProduct, removeProductError, removeProductLoading } = useRemoveFromCart();
 	return (
 		<>

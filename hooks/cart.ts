@@ -19,6 +19,18 @@ interface useCartResult {
 	cartItemsError: boolean;
 }
 
+interface useRemoveFromCartResult {
+	removeProduct: (productId: number) => void;
+	removeProductError: boolean;
+	removeProductLoading: boolean;
+}
+
+interface useUpdateCartItemResult {
+	updateCart: (productId: number, quantity: number) => void;
+	updateCartError: boolean;
+	updateCartLoading: boolean;
+}
+
 export function useCart(): useCartResult {
 	const query = useQuery<CartItem[]>('cartItems', async () => {
 		try {
@@ -40,7 +52,7 @@ export function useCart(): useCartResult {
 	}
 }
 
-export function useRemoveFromCart() {
+export function useRemoveFromCart(): useRemoveFromCartResult {
 	const queryClient = useQueryClient();
 	const mutation = useMutation(async (productId: number) => {
 		await fetchJson('/api/cart', {
@@ -60,6 +72,29 @@ export function useRemoveFromCart() {
 		},
 		removeProductError: mutation.isError,
 		removeProductLoading: mutation.isLoading
+	}
+}
+
+export function useUpdateCartItem(): useUpdateCartItemResult {
+	const queryClient = useQueryClient();
+	const mutation = useMutation(async ({ productId, quantity }: addToCartVariables) => {
+		await fetchJson('/api/cart', {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ productId, quantity })
+		});
+	}, {
+		onSuccess: (() => {
+			queryClient.invalidateQueries('cartItems');
+		})
+	}
+	);
+	return {
+		updateCart: async (productId: number, quantity: number) => {
+			mutation.mutateAsync({ productId, quantity });
+		},
+		updateCartError: mutation.isError,
+		updateCartLoading: mutation.isLoading
 	}
 }
 

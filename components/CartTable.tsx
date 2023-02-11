@@ -1,4 +1,5 @@
 import DeleteCartItemWidget from './DeleteCartItemWidget';
+import UpdateCartItemWidget from './UpdateCartItemWidget';
 
 interface CartTableProps {
 	cartItems: CartItem[];
@@ -62,7 +63,9 @@ const CartTable = ({ cartItems }: CartTableProps): JSX.Element => {
 					<tr key={id}>
 						<td className='border border-gray-700 text-left p-2'>{title}</td>
 						<td className='border border-gray-700 text-right p-2'>{price}</td>
-						<td className='border border-gray-700 text-right p-2'>{quantity}</td>
+						<td className='border border-gray-700 text-right p-2'>
+							<UpdateCartItemWidget productId={id} quantity={quantity} />
+						</td>
 						<td className='border border-gray-700 text-right p-2'>{formatCurrency(itemTotal)}</td>
 						<td>
 							<DeleteCartItemWidget productId={id} />
