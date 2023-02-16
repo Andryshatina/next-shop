@@ -1,4 +1,3 @@
-import Button from '../components/Button';
 import Field from '../components/Field';
 import Input from '../components/Input';
 import Page from '../components/Page';
@@ -6,6 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSignIn } from '../hooks/user';
 import LoadingSpinner from '../components/LoadingSpinner';
+import Link from 'next/link';
 
 const SignInPage = (): JSX.Element => {
 	const router = useRouter();
@@ -40,9 +40,19 @@ const SignInPage = (): JSX.Element => {
 							<p className="text-red-500 text-xs italic mb-5">Wrong login details</p>
 						)}
 						<div className="flex items-center justify-between">
-							{signInLoading ? <LoadingSpinner /> : (
-								<Button type="submit">Sign In</Button>
-							)}
+							<button className="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+								Sign In
+							</button>
+							{signInLoading && <LoadingSpinner size="sm" />}
+						</div>
+						<div className="mt-3 flex items-center justify-between">
+							<p className="text-gray-500 text-xs">
+								Do not have an account?
+
+							</p>
+							<Link className="text-green-800 hover:text-green-700 no-underline" href="/sign-up">
+								Sign Up
+							</Link>
 						</div>
 					</form>
 					<p className="text-center text-gray-500 text-xs">
