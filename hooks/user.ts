@@ -9,10 +9,20 @@ interface SignInVariables {
 	password: string;
 }
 
+interface SignUpVariables extends SignInVariables {
+	username: string;
+}
+
 interface useSignInResult {
 	signIn: (email: string, password: string) => Promise<boolean>;
 	signInError: boolean;
 	signInLoading: boolean;
+}
+
+interface useSignUpResult {
+	signUp: (username: string, email: string, password: string) => Promise<boolean>;
+	signUpError: boolean;
+	signUpLoading: boolean;
 }
 
 export function useSignIn(): useSignInResult {
@@ -35,6 +45,29 @@ export function useSignIn(): useSignInResult {
 		},
 		signInError: mutation.isError,
 		signInLoading: mutation.isLoading
+	}
+}
+
+export function useSignUp(): useSignUpResult {
+	const queryClient = useQueryClient();
+	const mutation = useMutation(({ username, email, password }: SignUpVariables) => fetchJson('/api/signup', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ username, email, password })
+	}));
+	return {
+		signUp: async (username: string, email: string, password: string) => {
+			try {
+				const user = await mutation.mutateAsync({ username, email, password });
+				queryClient.setQueryData(USER_QUERY_KEY, user);
+				return true;
+			}
+			catch (error) {
+				return false;
+			}
+		},
+		signUpError: mutation.isError,
+		signUpLoading: mutation.isLoading
 	}
 }
 
