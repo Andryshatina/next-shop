@@ -2,6 +2,7 @@ import Page from '../components/Page';
 import { useCart } from '../hooks/cart';
 import CartTable from '../components/CartTable';
 import LoadingSpinner from '../components/LoadingSpinner';
+import WarningTag from '../components/WarningTag';
 
 
 const Cart = (): JSX.Element => {
@@ -15,7 +16,7 @@ const Cart = (): JSX.Element => {
 					{cartItemsLoading ? (
 						<LoadingSpinner size='lg' />
 					) : cartItemsError ? (
-						<p className='text-red-500'>{cartItemsError}</p>
+						<WarningTag>{cartItemsError}</WarningTag>
 					) : (
 						<CartTable cartItems={cartItems} />
 					)}

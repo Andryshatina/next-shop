@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSignIn } from '../hooks/user';
 import LoadingSpinner from '../components/LoadingSpinner';
+import WarningTag from '../components/WarningTag';
 import Link from 'next/link';
 
 const SignInPage = (): JSX.Element => {
@@ -37,7 +38,7 @@ const SignInPage = (): JSX.Element => {
 							<Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
 						</Field>
 						{signInError && (
-							<p className="text-red-500 text-xs italic mb-5">Wrong login details</p>
+							<WarningTag>Wrong login details</WarningTag>
 						)}
 						<div className="flex items-center justify-between">
 							<button className="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
@@ -55,9 +56,6 @@ const SignInPage = (): JSX.Element => {
 							</Link>
 						</div>
 					</form>
-					<p className="text-center text-gray-500 text-xs">
-						&copy;2023 Sample Corp. All rights reserved.
-					</p>
 				</div>
 			</div>
 

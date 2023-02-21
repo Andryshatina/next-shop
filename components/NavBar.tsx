@@ -36,10 +36,10 @@ const NavBar = (): JSX.Element => {
 					<Link href="/" className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
 						Home
 					</Link>
-					<Link href="/about" className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+					<Link href="/" className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
 						About
 					</Link>
-					<Link href="/products" className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
+					<Link href="/" className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
 						Products
 					</Link>
 				</div>
