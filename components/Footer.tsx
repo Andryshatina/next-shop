@@ -34,10 +34,6 @@ const Footer = (): JSX.Element => {
 			<div className="flex flex-row items-center justify-center w-full">
 				<p className="text-sm text-gray-500">© 2023 Next Shop. All rights reserved.</p>
 			</div>
-
-
-
-
 		</footer>
 
 	);
